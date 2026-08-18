@@ -20,6 +20,5 @@ statsig/
 jobs/
 daemon/
 backups/
-plugins/
 ide/
 *.bak

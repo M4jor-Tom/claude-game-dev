@@ -28,6 +28,7 @@ Then start Claude Code and ask for your game — the `game-from-ontology` skill 
 
 ```
 CLAUDE.md        ontology-first rules (sync rule, router-always, spike/jam exemption)
+settings.json    project settings: plugin marketplaces + enabled plugins (claude-mem, …)
 skills/          70 skills: 69 symlinks into vendor/ + game-from-ontology (ours)
 vendor/          git submodules:
                    awesome-gamedev-agent-skills  — router + 67 gamedev skills (upstream)
