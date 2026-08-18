@@ -1,10 +1,10 @@
 # Game project — ontology-driven
 
-- Ce repo est développé **ontology-first** : toute nouvelle feature de gameplay commence par
-  le skill `game-from-ontology` (qui enchaîne `ontology` puis `router`).
-- `ontology/` à la racine du repo est la source de vérité : le router la met à jour d'abord
-  (step 0), puis le développement la consomme. Jamais l'inverse.
-- Pour toute tâche d'implémentation gamedev, passer par le skill `router` — ne pas choisir
-  les skills moteur/genre à la main.
-- Exemption : les spikes `prototype-fast` et les builds `game-jam` sont pré-ontologie, sur
-  branche/repo séparé, jamais mergés.
+- This repo is developed **ontology-first**: every new gameplay feature starts with the
+  `game-from-ontology` skill (which chains `ontology` then `router`).
+- `ontology/` at the repo root is the source of truth: the router updates it first
+  (step 0), then development consumes it. Never the other way around.
+- For any gamedev implementation task, go through the `router` skill — don't pick
+  engine/genre skills by hand.
+- Exemption: `prototype-fast` spikes and `game-jam` builds are pre-ontology, on a
+  separate branch/repo, never merged.
