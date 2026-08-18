@@ -11,8 +11,8 @@ description: >
 # Game From Ontology — Ontology-Driven Game Development
 
 The ontology is the source of truth. Code, data, and content are derived from it — never the
-other way around. The router keeps it synced: every domain-touching task updates the ontology
-first (router step 0), then implementation consumes it.
+other way around. Every domain-touching task updates the ontology first (the sync rule in
+the repo's CLAUDE.md), then implementation consumes it.
 
 ## Workflow
 
@@ -60,7 +60,8 @@ C# types, Rust structs, TypeScript… The compiler/loader is the constraint chec
 
 Read `skills/router/SKILL.md`. Let it pick the engine (or ask the user if the repo is empty)
 and load only the minimal engine/discipline/genre skills for the task at hand. From then on,
-the router's step 0 keeps `ontology/` synced on every domain-touching request.
+the CLAUDE.md sync rule keeps `ontology/` updated before every domain-touching request is
+implemented.
 
 ### 4. Derive, don't duplicate
 
