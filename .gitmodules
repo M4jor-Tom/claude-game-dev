@@ -1,0 +1,7 @@
+[submodule "vendor/awesome-gamedev-agent-skills"]
+	path = vendor/awesome-gamedev-agent-skills
+	url = https://github.com/gamedev-skills/awesome-gamedev-agent-skills
+[submodule "vendor/claude-ontology-skill"]
+	path = vendor/claude-ontology-skill
+	url = https://github.com/M4jor-Tom/claude-ontology-skill
+	branch = docs/language-agnostic-intro
