@@ -19,6 +19,25 @@ git submodule update --init --recursive
 
 (or `git clone --recurse-submodules … .claude` if you don't want the nested submodule.)
 
+### Or as a standalone config dir
+
+```bash
+nix run github:M4jor-Tom/claude-game-dev.app
+```
+
+Clones this repo to `~/.claude-game-dev`, points `CLAUDE_CONFIG_DIR` at it, and
+supplies every CLI the skills shell out to. Override the location with
+`CLAUDE_GAME_DEV_DIR`. Without Nix:
+
+```bash
+git clone --recursive https://github.com/M4jor-Tom/claude-game-dev.git ~/.claude-game-dev
+CLAUDE_CONFIG_DIR=~/.claude-game-dev claude
+```
+
+Used this way, Claude Code writes sessions, caches, credentials and its plugin
+cache into the clone. All of it is ignored — see `.gitignore`. One untracked
+file makes the app skip its auto-pull, silently.
+
 Then start Claude Code and ask for your game — the `game-from-ontology` skill picks it up.
 
 > **Don't `cp -r` this directory**: `skills/` is symlinks into `vendor/` submodules; a copy
