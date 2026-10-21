@@ -46,3 +46,4 @@ agent-plugin-data/
 extensions/subagent/
 .superpowers/
 tasks/
+state/
