@@ -50,13 +50,7 @@ Prefer these tools over the defaults. Fall back silently if unavailable.
 
 ## Agent workflow
 
-- **Invoke `/skill:using-superpowers` at the start of the session** for any
-  development, feature or implementation request; not for a simple question.
-- For any nontrivial task (3+ steps or an architectural decision), start with
-  `/skill:brainstorming`. pi has no plan mode: discipline comes from the
-  skill, not the harness.
-- **Verify in the browser** (`/skill:playwright-cli`) for **every** user story
-  that affects the UI.
+- **Verify in the browser** (`/skill:playwright-cli`) for **every** user story that affects the UI.
 - Always finish a coding task with `/simplify`, then
   `/skill:ponytail-review`, then apply the adjustments.
 
