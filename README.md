@@ -1,67 +1,81 @@
-# pi-power-dev
+# claude-power-dev
 
-A [pi](https://pi.dev) agent directory: general-purpose coding profile,
-ported from `M4jor-Tom/claude-power-dev`.
+A Claude Code config directory: general-purpose coding profile. `pi-power-dev`
+is its pi port.
 
 ## Use it
 
-Without Nix — this repo *is* the agent dir:
+Without Nix — this repo *is* the config dir:
 
 ```bash
-git clone https://github.com/M4jor-Tom/pi-power-dev.git ~/.pi-power-dev
-PI_CODING_AGENT_DIR=~/.pi-power-dev pi
+git clone --recurse-submodules https://github.com/M4jor-Tom/claude-power-dev.git ~/.claude-power-dev
+CLAUDE_CONFIG_DIR=~/.claude-power-dev claude
 ```
 
 With Nix, which also supplies every CLI the skills shell out to:
 
 ```bash
-nix run github:M4jor-Tom/pi-power-dev.app
+nix run github:M4jor-Tom/claude-power-dev.app
 ```
 
-`PI_CODING_AGENT_DIR` replaces pi's `agent` subdirectory, so this repo's
-`settings.json` is what `~/.pi/agent/settings.json` would normally be.
+`CLAUDE_CONFIG_DIR` makes this repo what `~/.claude` would normally be, so the
+`settings.json` here is the user-level settings file.
 
 ## Layout
 
 | Path | Role |
 |---|---|
-| `AGENTS.md` | Global memory, loaded at every session start |
-| `settings.json` | pi settings, and the pinned `packages[]` manifest |
-| `mcp.json` | MCP servers, read by `pi-mcp-adapter` |
-| `skills/` | Locally authored skills |
-| `prompts/` | Slash commands |
-| `extensions/` | TypeScript extensions (pi's replacement for hooks) |
-| `tests/` | `node --test` unit tests for the extensions |
-| `scripts/check.sh` | Integrity check, also run in CI |
+| `CLAUDE.md` | Global memory, loaded at every session start |
+| `RTK.md`, `conventional-commits.md` | Imported by `CLAUDE.md` |
+| `rules/` | Additional imported rules |
+| `settings.json` | Settings; disables the old marketplace plugin installs |
+| `skills/` | Six local skills + relative symlinks to ten vendored plugins |
+| `vendor/` | Seven upstream Git submodules, pinned to exact commits |
+| `scripts/check.sh` | Checks submodule pins, skill links and plugin manifests |
+| `docs/superpowers/` | Specs and plans |
 
-Auth, sessions and memory are per-profile: because `PI_CODING_AGENT_DIR`
-points here, `auth.json`, `sessions/` and `pi-hermes-memory/` all land in
-this directory and are gitignored. Nothing is shared with `~/.pi` or with
-`pi-game-dev`.
+## Vendored skills and plugins
 
-## Updating pinned packages
+Like `../claude-game-dev`, upstream repositories are Git submodules under
+`vendor/`, exposed through relative symlinks in Claude Code's normal `skills/`
+directory. Keep `vendor/` with `skills/`; copying only the links breaks them.
 
-Refs in `packages[]` are pinned. `pi update --extensions` reconciles clones
-to the configured ref; moving to a newer ref means editing `settings.json`
-(or `pi install git:host/user/repo@new-ref`) and committing.
+Each link targets the **plugin root**, containing `.claude-plugin/plugin.json`.
+Claude Code's [skills-directory plugin loading](https://code.claude.com/docs/en/plugins/loading#plugins-shared-through-a-repository)
+loads it automatically as `<name>@skills-dir`, including its nested skills,
+commands, agents, hooks and MCP servers. This keeps plugin-relative resources
+and `${CLAUDE_PLUGIN_ROOT}` working, with no marketplace registration or download.
+Skill commands retain their namespaces, such as `/superpowers:using-superpowers`
+and `/ponytail:ponytail-review`. Verified with Claude Code 2.1.283;
+managed settings must not block skills-directory plugins.
 
-## Not ported from Claude Code
-
-pi has no equivalent, by design, for these — each was dropped deliberately:
-
-| Claude Code | Why it is gone |
+| Submodule | Plugins exposed in `skills/` |
 |---|---|
-| `permissions.allow` (41 entries) | pi has no permission prompts. Tool scoping is `defaultTools` / `--tools`. |
-| `statusLine: bunx ccstatusline` | pi's footer already shows cwd, session, tokens, cache, cost, context and model. |
-| `worktree`, `enableWorkflows`, `sandbox` | No analogue. |
-| `cleanupPeriodDays`, `spinnerTipsEnabled` | No analogue. |
-| `skipDangerousModePermissionPrompt`, `skipWorkflowUsageWarning` | Nothing to skip — there is no prompt. |
-| `github` MCP | Replaced by the `gh` CLI, which `AGENTS.md` already mandates. |
-| `playwright` MCP | Replaced by the `playwright-cli` skill. |
-| `understand-anything` | Its `prepare` script needs a pnpm + TypeScript build that pi's `npm install --omit=dev` cannot run, so installing it crashes pi at startup. Its skills' helper scripts and 7 of its 10 agents depend on that build too. The `graphify` skill covers the same "codebase to queryable knowledge graph" ground. To recover it, build the upstream monorepo out-of-band and point `skills` at the result. |
+| `claude-plugins-official` | `frontend-design`, `claude-md-management`, `github`, `playwright` |
+| `superpowers` | `superpowers` |
+| `ponytail` | `ponytail` |
+| `claude-mem` | `claude-mem` |
+| `ui-ux-pro-max-skill` | `ui-ux-pro-max` |
+| `understand-anything` | `understand-anything` |
+| `i-have-adhd` | `i-have-adhd` |
 
-## Known version gap
+The old marketplace IDs remain explicitly disabled in `settings.json` so an
+existing plugin cache cannot load duplicate copies. `plugins/` stays untracked
+as runtime state; it is no longer the source of these plugins.
 
-`skills/graphify/.graphify_version` pins graphify 0.8.30; nixpkgs ships
-0.4.23. The app also ships `uv`, so the skill's own
-`uv tool install --upgrade graphifyy` path can take over.
+For an existing clone, initialize the submodules before starting Claude:
+
+```bash
+git submodule update --init --recursive
+sh scripts/check.sh
+```
+
+CI runs that check after recursive checkout. Dependabot proposes weekly
+submodule updates; review and rerun the check before accepting a new pin.
+
+## Runtime state
+
+Claude Code writes sessions, projects, caches, credentials and its plugin cache
+into the config dir, which is this repo. All of it is ignored; see
+`.gitignore`. Keeping that list complete matters: one untracked file makes
+`claude-power-dev.app` skip its auto-pull, silently.
