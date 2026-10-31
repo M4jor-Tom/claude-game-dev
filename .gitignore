@@ -1,10 +1,9 @@
-# Claude Code runtime state. CLAUDE_CONFIG_DIR points at this repo, so Claude
-# Code writes its session and cache files next to the tracked config.
+# Claude Code runtime state. This repo is used both as a project's .claude/ and
+# as a standalone CLAUDE_CONFIG_DIR, so Claude Code writes its session and cache
+# files next to the tracked config.
 #
 # Every rule below is anchored with a leading "/": these are root-level state
-# names, and unanchored they also swallow real content at any depth — an
-# unanchored "plans/" hides docs/superpowers/plans/, "tasks/" and "cache/"
-# would hide any nested directory of that name.
+# names, and unanchored they also swallow real content at any depth.
 /settings.local.json
 # Machine-local state. Normally ~/.claude.json, but it moves *inside* the
 # config dir when CLAUDE_CONFIG_DIR points here. Holds oauthAccount, userID,
@@ -32,12 +31,12 @@
 /ide/
 /backups/
 
-# Legacy plugin cache: its index files hardcode absolute install paths.
-# Plugins now load through skills/ symlinks into vendor/ submodules.
+# Plugin state: a cache whose index files hardcode absolute install paths.
+# Marketplaces and plugins are declared in settings.json instead.
 /plugins/
 
 # Hook-written markers. Keeping this list complete matters: one untracked file
-# makes claude-power-dev.app skip its auto-pull, silently.
+# makes claude-game-dev.app skip its auto-pull, silently.
 /.ponytail-*
 
 # Secrets and editor backups, deliberately unanchored — ignore these at any
