@@ -41,9 +41,42 @@ this directory and are gitignored. Nothing is shared with `~/.pi` or with
 
 ## Updating pinned packages
 
-Refs in `packages[]` are pinned. `pi update --extensions` reconciles clones
-to the configured ref; moving to a newer ref means editing `settings.json`
-(or `pi install git:host/user/repo@new-ref`) and committing.
+Use the dev tool (requires `jq`, `npm`, and `git`):
+
+```bash
+./scripts/update-plugins.sh                       # update every pin
+./scripts/update-plugins.sh pi-subagents          # update one npm package
+./scripts/update-plugins.sh pi-subagents 0.89.0   # choose an exact npm version
+./scripts/update-plugins.sh superpowers          # update one Git package
+```
+
+With no version, npm packages resolve their `latest` release and Git packages
+resolve the remote default branch's HEAD. npm versions must be numeric `X.Y.Z`
+(no ranges or prereleases). For Git, an optional second argument selects a
+published tag; refs are saved as full commit hashes. Select Git packages by
+repository name, or use a full source without its `@pin` to
+resolve ambiguous names. Scoped npm names such as `@scope/package` also work.
+
+The script updates only `settings.json`, preserving package resource filters.
+It installs nothing, writes only after all selected lookups succeed, and aborts
+if the settings changed during lookup. Review `git diff`, run
+`sh scripts/check.sh`, then commit the new pins.
+
+Start a fresh Pi session to install and load the new pins:
+
+```bash
+PI_CODING_AGENT_DIR="$PWD" pi
+```
+
+For one known version, Pi also provides a native command that changes the pin
+and installs it while preserving resource filters:
+
+```bash
+PI_CODING_AGENT_DIR="$PWD" pi install npm:pi-subagents@0.89.0
+```
+
+`pi update --extensions` does not advance pins: it skips exact npm versions
+and reconciles Git checkouts to their configured refs.
 
 ## Not ported from Claude Code
 
