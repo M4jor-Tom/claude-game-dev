@@ -3,15 +3,15 @@
   "defaultProjectTrust": "ask",
   "enableSkillCommands": true,
   "packages": [
-    "git:github.com/obra/superpowers@b36e0829c6d0140e93cfef2ca599b1b07d4a7797",
-    "git:github.com/DietrichGebert/ponytail@0a4dd63ad4541f4f655c4108a295916f3c1d8fda",
-    "npm:pi-hermes-memory@0.9.8",
-    "npm:pi-mcp-adapter@2.33.0",
-    "npm:pi-subagents@0.67.0",
-    "npm:pi-workspace-history@0.5.0",
+    "git:github.com/obra/superpowers@22f0b463e7a5e579904dd6211a520321035526f7",
+    "git:github.com/DietrichGebert/ponytail@96608e078b2d5ea607c5c3b8b5a54d1c1fba6846",
+    "npm:pi-hermes-memory@0.11.0",
+    "npm:pi-mcp-adapter@7.0.1",
+    "npm:pi-subagents@0.89.0",
+    "npm:pi-workspace-history@0.5.2",
     "npm:pi-ultra-compact@1.3.0",
     {
-      "source": "git:github.com/anthropics/claude-plugins-official@ed404106fcd80ba98ecb7c851e531dcb626d13b7",
+      "source": "git:github.com/anthropics/claude-plugins-official@e6143c9807a001832badb63e89d58ffe25d542ec",
       "skills": [
         "plugins/frontend-design/skills",
         "plugins/claude-md-management/skills"
@@ -21,7 +21,7 @@
       "themes": []
     },
     {
-      "source": "git:github.com/nextlevelbuilder/ui-ux-pro-max-skill@1307d97a72e6c1cda572cb65471ae5ce82995218",
+      "source": "git:github.com/nextlevelbuilder/ui-ux-pro-max-skill@e59ff376a41f7ca47b7541ad5c116495cbade3ee",
       "skills": [
         ".claude/skills"
       ],
