@@ -74,3 +74,10 @@ Prefer these tools over the defaults. Fall back silently if unavailable.
 - **Simplicity first**: make every change as simple as possible.
 - **No laziness**: find the root causes. No temporary fixes.
 - **Minimal impact**: only touch what is necessary.
+- **Typed over prose**: before storing any information as prose, ask "is there
+  a way to store this in a deterministic, type-enforced form?" (for example
+  Gherkin or schema-validated YAML instead of Markdown).
+- **Every file has a quality gate**: any file stored in any repo must be
+  covered by automated quality enforcement. Any. (For example lint and schema
+  validation for Gherkin and LinkML; limits on method, class and file length
+  and on cognitive complexity for C#.)
